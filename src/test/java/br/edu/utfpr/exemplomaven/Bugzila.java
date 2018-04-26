@@ -60,14 +60,17 @@ public class Bugzila {
     @Test
     public void loginValido() {
         LoginPage login = new LoginPage(driver);
-        MainPage mp = login.isCorrectPage();
-
+        MainPage mp = login.entraLogin("luizgui@gmail.com");
+        mp.entraSenha("1234");
+        mp.isCorrectPage();
     }
 
     @Test
     public void loginInvalido() {
         LoginPage login = new LoginPage(driver);
-        MainPage mp != login.isCorrectPage();
+        MainPage mp = login.entraLogin("luizgui@gmail.com");
+        mp.entraSenha("1234455");
+        mp.isCorrectPage();
     }
 
 }

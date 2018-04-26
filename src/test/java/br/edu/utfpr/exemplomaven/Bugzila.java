@@ -1,5 +1,10 @@
+// Nome: Roberto Guimarães Junior
+// Nome: Tiago Pereira
+
 package br.edu.utfpr.exemplomaven;
 
+import br.edu.utfpr.classesPO.LoginPage;
+import br.edu.utfpr.classesPO.MainPage;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -23,13 +28,10 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-/**
- *
- * @author renil
- */
+
 public class Bugzila {
 
-    private static String CHROMEDRIVER_LOCATION = "C:\\Users\\renil\\Downloads\\chromedriver.exe";
+    private static String CHROMEDRIVER_LOCATION = "C:\\Users\\Bites\\Documents\\DriverSelenium\\chromedriver.exe";
 
     private static int scId = 0;
 
@@ -57,8 +59,26 @@ public class Bugzila {
         driver.close();
     }
     
+    // testes atividade 15 -----------------------------------------------------
+    
     @Test
-    public void loginInvalido() {
+    public void loginValidoTestPO() {
+        LoginPage login = new LoginPage(driver);
+        MainPage main = login.InserirLogin("robertoj@alunos.utfpr.edu.br") .inserirSenha("senhateste") .adicionarValido();
+        assertEquals("| Log out robertoj@alunos.utfpr.edu.br", main.emailLogado());
+    }
+    
+    @Test
+    public void loginInvalidoTestPO() {
+        LoginPage login = new LoginPage(driver);
+        login.InserirLogin("tiagopereira@utfpr.edu.brteste123") .inserirSenha("teste12345") .adicionarInvalido();
+        assertEquals("The login or password you entered is not valid.", login.getErrorText());
+    }
+    
+    // fim testes atividade 15 -----------------------------------------------------
+    
+    @Test
+    public void loginInvalidoTest() {
         driver.get("https://landfill.bugzilla.org/bugzilla-5.0-branch/");
 
         WebElement linkLogin = driver.findElement(By.id("login_link_top"));
@@ -67,11 +87,11 @@ public class Bugzila {
 
         WebElement email = driver.findElement(By.id("Bugzilla_login_top"));
 
-        email.sendKeys("asdsad@asdas.com");
+        email.sendKeys("robertoj@alunos.utfpr.edu.br");
 
         WebElement senha = driver.findElement(By.id("Bugzilla_password_top"));
 
-        senha.sendKeys("asdsad");
+        senha.sendKeys("senhateste");
 
         WebElement login = driver.findElement(By.id("log_in_top"));
 
@@ -91,11 +111,11 @@ public class Bugzila {
 
         WebElement email = driver.findElement(By.id("Bugzilla_login_top"));
 
-        email.sendKeys("rafaelnsantos1@gmail.com");
+        email.sendKeys("robertoj@alunos.utfpr.edu.br");
 
         WebElement senha = driver.findElement(By.id("Bugzilla_password_top"));
 
-        senha.sendKeys("abcd1234");
+        senha.sendKeys("senhateste");
 
         WebElement login = driver.findElement(By.id("log_in_top"));
 
@@ -104,7 +124,7 @@ public class Bugzila {
         driver.get("https://landfill.bugzilla.org/bugzilla-5.0-branch/userprefs.cgi");
 
         WebElement user = driver.findElement(By.xpath("//*[@id=\"subtitle\"]"));
-        assertEquals("rafaelnsantos1@gmail.com", user.getText().trim());
+        assertEquals("roberto@gmail.com", user.getText().trim());
     }
     
     @Test
@@ -160,7 +180,7 @@ public class Bugzila {
 
         WebElement email = driver.findElement(By.xpath("//*[@id=\"login\"]"));
 
-        email.sendKeys("rafaelnsantos1@gmail.com");
+        email.sendKeys("robertoj@alunos.utfpr.edu.br");
 
         WebElement login = driver.findElement(By.id("send"));
 
@@ -168,7 +188,7 @@ public class Bugzila {
 
         WebElement errorMsg = driver.findElement(By.id("error_msg"));
 
-        assertEquals("There is already an account with the login name rafaelnsantos1@gmail.com.", errorMsg.getText().trim());
+        assertEquals("There is already an account with the login name robertoj@alunos.utfpr.edu.br", errorMsg.getText().trim());
 
     }
 
